@@ -7,74 +7,103 @@
 //        Company:  ChungBuk University
 // 
 // =====================================================================================
+#pragma once
 #include<iostream>
+#define MAX_SIZE      10
+#define HASH_KEY(hash_key)  hash_key%MAX_SIZE
+using namespace std;
 
-#define MAX_HASH 10
-#define HASH_KEY(key) key%MAX_HASH
-
-using namespace std; 
 class Node {
 public:
-	int data; 
-	Node *nextNode; 
+	int data;
+	Node *nextNode;
 };
-Node *hashTable[MAX_HASH]; 
 
-void AddHash(int id, Node *node) {
-	int hash_key = HASH_KEY(id); 
+Node *hashTable[MAX_SIZE];
+
+void AddNode(int data, Node *node) {
+	int hash_key = HASH_KEY(data);
+
 	if (hashTable[hash_key] == NULL) {
-		hashTable[hash_key] = node; 
+		hashTable[hash_key] = node;
 	}
 	else {
-		node->nextNode = hashTable[hash_key]; 
-		hashTable[hash_key] = node; 
+		node->nextNode = hashTable[hash_key];
+		hashTable[hash_key] = node;
 	}
 }
 
 void DelNode(int data) {
-	int hash_key = HASH_KEY(data); 
-	if (hashTable[hash_key] == NULL)
-		return; 
-	Node *delNode = NULL; 
+	int hash_key = HASH_KEY(data);
 
+	if (hashTable[hash_key] == NULL) {
+		return;
+	}
+	Node *delNode = new Node();
 	if (hashTable[hash_key]->data == data) {
-		delNode = hashTable[hash_key]; 
-		hashTable[hash_key] = hashTable[hash_key]->nextNode; 
+		delNode = hashTable[hash_key];
+		hashTable[hash_key] = hashTable[hash_key]->nextNode;
 	}
 	else {
-		Node *node = hashTable[hash_key]; 
-		Node *nxt = node->nextNode; 
+		Node *node = hashTable[hash_key];
+		Node *nxt = node->nextNode;
 		while (nxt) {
 			if (nxt->data == data) {
-				node->nextNode = nxt->nextNode; 
-				delNode = nxt; 
-				break; 
+				delNode = nxt;
+				node->nextNode = nxt->nextNode;
+				break;
 			}
-			node = nxt; 
-			nxt = nxt->nextNode; 
+			node = nxt;
+			nxt = nxt->nextNode;
 		}
 	}
-	free(delNode); 
+	free(delNode);
 }
 
+
 int main() {
-	int n; cin >> n; 
+	int n;
+	cout << "데이터의 갯수 입력 : ";
+	cin >> n;
+
+	cout << "데이터를 입력하세요 : ";
 
 	for (int i = 0; i < n; i++) {
-		int x; cin >> x;
-		Node *node = new Node(); 
-		node->data = x; 
-		node->nextNode = NULL; 
-		AddHash(x, node); 
+		int x;  cin >> x;
+		Node *node = new Node();
+		node->data = x; node->nextNode = NULL;
+		AddNode(x, node);
 	}
-	for (int i = 0; i < MAX_HASH; i++) {
-		cout << i << '\n'; 
-		Node *tmp = hashTable[i]; 
-		while (tmp) {
-			cout << tmp->data << ' '; 
-			tmp = tmp->nextNode; 
+	cout << "현재 테이블 현황 ";
+	for (int i = 0; i < MAX_SIZE; i++) {
+		cout << "table No " << i << '\n';
+		Node *search = hashTable[i];
+		while (search) {
+			cout << search->data << ' ';
+			search = search->nextNode;
 		}
-		cout << '\n'; 
+		cout << '\n' << '\n';
 	}
-	return 0; 
+
+	int delQuery;
+	cout << "삭제 연산 수를 입력하세요 : ";
+	cin >> delQuery;
+	cout << "삭제할 데이터를 입력하세요 : ";
+	while (delQuery--) {
+		int x; cin >> x;
+		DelNode(x);
+	}
+
+	cout << "현재 테이블 현황 ";
+	for (int i = 0; i < MAX_SIZE; i++) {
+		cout << "table No " << i << '\n';
+		Node *search = hashTable[i];
+		while (search) {
+			cout << search->data << ' ';
+			search = search->nextNode;
+		}
+		cout << '\n' << '\n';
+	}
+
+	return 0;
 }
