@@ -1,8 +1,18 @@
+// =====================================================================================
+// 
+//       Filename:  Hash_Table(Chaining).cpp
+//        Created:  2018년 11월 01일 15시 34분 05초
+//       Compiler:  g++ -O2 -std=c++14
+//         Author:  Minerba ,  proability@naver.com
+//        Company:  ChungBuk University
+// 
+// =====================================================================================
 #include<iostream>
+
 #define MAX_HASH 10
 #define HASH_KEY(key) key%MAX_HASH
-using namespace std; 
 
+using namespace std; 
 class Node {
 public:
 	int data; 
