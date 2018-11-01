@@ -1,18 +1,29 @@
-// Bubble_Sort
-#pragma once
+#include<iostream>
 
-#define N        11
-#define MAX_QUERY  2048
-#define SWAP(a, b, tmp) ((tmp)=(a), (a) = (b), (b) = (tmp))
+using namespace std; 
 
-void Bubble_Sort(int ar[]) {
-	int i, j, tmp;
-	for (i = N - 1; i > 0; i--) {
-		for (j = 0; j < i; j++) {
-			if (ar[j] > ar[j + 1]) {
-				SWAP(ar[j], ar[j + 1], tmp);
-			}
-		}
+template<class T>
+class _vector {
+public:
+	int _size; 
+	int capacity; 
+	T *arr; 
+	_vector() {
+		_size = 0; 
+		capacity = 32; 
+		arr = new T[capacity]; 
 	}
-}
+	
+	_vector(int k) {
+		_size = k; 
+		capacity = k; 
+		arr = new T[k]; 
+	}
+};
 
+
+int main() {
+
+
+	return 0; 
+}
